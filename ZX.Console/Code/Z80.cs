@@ -5,13 +5,15 @@ namespace ZX.Console.Code;
 
 public class ZXSpectrum
 {
-    private Z80 _z80;
+    private readonly Z80 _z80;
     private Memory _memory;
+    private readonly bool _isDebug;
 
-    public ZXSpectrum(Memory memory, int freq)
+    public ZXSpectrum(Memory memory, int freq, bool isDebug=false)
     {
-        _z80 = new Z80(memory, freq);
+        _z80 = new Z80(memory, freq, isDebug);
         _memory = memory;
+        _isDebug = isDebug;
     }
 
     public void Init()
@@ -27,7 +29,7 @@ public class ZXSpectrum
     private byte? _int = null;
     
 
-    public void Run(bool debudMode=false)
+    public void Run()
     {
         do
         {
@@ -35,7 +37,7 @@ public class ZXSpectrum
             {
                 _z80.Tick();
             }
-            catch (HALTException)
+            catch (HaltException)
             {
                 System.Console.WriteLine("HALT");
                 do
@@ -45,11 +47,6 @@ public class ZXSpectrum
                 System.Console.WriteLine("RESUMED");
             }
 
-            if (debudMode)
-            {
-                System.Console.Clear();
-                System.Console.WriteLine(_z80.Reg.ToString());
-            }
         } while (true);
     }
 }
@@ -65,12 +62,14 @@ public class Z80
     private readonly Dictionary<byte,Cmd> _commandsCB = new();
     private readonly Dictionary<byte,Cmd> _commandsDDCB = new();
 
-    private  int _freq;
+    private readonly int _freq;
+    private readonly bool _isDebug;
 
-    public Z80(Memory memory, int freq)
+    public Z80(Memory memory, int freq, bool isDebug=false)
     {
         Memory=memory;
         _freq=freq;
+        _isDebug = isDebug;
     }
 
     public void Init()
@@ -82,10 +81,14 @@ public class Z80
         Init(_commands, new JR_CC_S());
         Init(_commands, new LD_RR_NN());
         Init(_commands, new ADD_HL_RR());
-        Init(_commands, new HALT());
+        Init(_commands, new Halt());
     }
 
-    private void Init(Dictionary<byte, Cmd> cmds, Cmd cmd) { foreach (var b in cmd.Range) cmds.Add(b, cmd); }
+    private void Init(Dictionary<byte, Cmd> cmds, Cmd cmd)
+    {
+        byte i = 0;
+        foreach (var b in cmd.Range) cmds.Add(b, cmd.Init(i++));
+    }
 
     public void Tick()
     {
@@ -117,7 +120,13 @@ public class Z80
         }
         else cmd = _commands[cmdCode];
 
-        cmd.Execute(this,cmdCode);
+        if (_isDebug)
+        {
+            System.Console.Clear();
+            System.Console.WriteLine(cmd.ToString());
+            System.Console.WriteLine(Reg.ToString());
+        }
+        cmd.Execute(this);
         
         double sleep= cmd.Ticks*1_000_000.0 /_freq;
         Thread.Sleep(TimeSpan.FromMicroseconds(sleep));

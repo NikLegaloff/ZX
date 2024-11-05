@@ -13,6 +13,6 @@ byte[] code = new byte[]
 
 
 var memory = new Memory(code);
-ZXSpectrum pc = new ZXSpectrum(memory, 10);
+ZXSpectrum pc = new ZXSpectrum(memory, 10,true);
 pc.Init();
-pc.Run(true);
+pc.Run();

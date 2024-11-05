@@ -4,13 +4,15 @@ public class JR_CC_S : Cmd
 {
     public override byte[] Range => [0b001_00_000,0b00101000,0b001_10_000,0b001_11_000];
 
-    public override void Execute(Z80 cpu, byte cmd)
+    private ShortConditionCode _code;
+
+    public override void Execute(Z80 cpu)
     {
-        var condition = (ShortConditionCode)GetBits45(cmd);
-        bool jump = condition == ShortConditionCode.Z && cpu.Reg.A.Z || 
-                    condition == ShortConditionCode.NZ && !cpu.Reg.A.Z || 
-                    condition == ShortConditionCode.C && cpu.Reg.A.C || 
-                    condition == ShortConditionCode.NC && !cpu.Reg.A.C;
+        
+        bool jump = _code == ShortConditionCode.Z && cpu.Reg.A.Z ||
+                    _code == ShortConditionCode.NZ && !cpu.Reg.A.Z ||
+                    _code == ShortConditionCode.C && cpu.Reg.A.C ||
+                    _code == ShortConditionCode.NC && !cpu.Reg.A.C;
         var shift = (sbyte)ReadByte(cpu);
         if (jump)
         {
@@ -20,4 +22,8 @@ public class JR_CC_S : Cmd
         else Ticks = 7;
         
     }
+    public override string ToString() => $"JR {_code}, s";
+    public override Cmd Init(byte shift) => new JR_CC_S { _code = (ShortConditionCode)shift };
 }
+
+public enum ShortConditionCode { NZ, Z, NC, C }

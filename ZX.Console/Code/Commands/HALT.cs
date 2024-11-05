@@ -1,14 +1,14 @@
 ﻿namespace ZX.Console.Code.Commands;
 
-public class HALT : Cmd
+public class Halt : Cmd
 {
     public override byte[] Range => [0b01_110_110];
-    public override void Execute(Z80 cpu, byte cmd)
+    public override void Execute(Z80 cpu)
     {
-        throw new HALTException();
+        throw new HaltException();
     }
+    public override Cmd Init(byte shift) => new Halt();
+    public override string ToString() => "HALT";
 }
-public class HALTException : Exception
-{
 
-}
+public class HaltException : Exception;
