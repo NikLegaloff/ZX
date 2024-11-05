@@ -9,10 +9,10 @@ public class JR_CC_S : Cmd
     public override void Execute(Z80 cpu)
     {
         
-        bool jump = _code == ShortConditionCode.Z && cpu.Reg.A.Z ||
-                    _code == ShortConditionCode.NZ && !cpu.Reg.A.Z ||
-                    _code == ShortConditionCode.C && cpu.Reg.A.C ||
-                    _code == ShortConditionCode.NC && !cpu.Reg.A.C;
+        bool jump = _code == ShortConditionCode.Z && cpu.Reg.F.Z ||
+                    _code == ShortConditionCode.NZ && !cpu.Reg.F.Z ||
+                    _code == ShortConditionCode.C && cpu.Reg.F.C ||
+                    _code == ShortConditionCode.NC && !cpu.Reg.F.C;
         var shift = (sbyte)ReadByte(cpu);
         if (jump)
         {

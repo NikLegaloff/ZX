@@ -21,7 +21,7 @@ public class Registers : RegistersSet
     }
 }
 
-public class Accumulator
+public class Flags
 {
     public byte Value=0;
     public bool S
@@ -75,15 +75,15 @@ public class Accumulator
 
 public class RegistersSet
 {
-    public Accumulator A=new();
-    public byte F;
+    public byte A;
+    public Flags F;
     public ushort AF
     {
-        get => (ushort)(A.Value * 256 + F);
+        get => (ushort)(A * 256 + F.Value);
         set
         {
-            A.Value = (byte)(value / 256);
-            F = (byte)(value % 256);
+            A= (byte)(value / 256);
+            F.Value = (byte)(value % 256);
         }
     }
 

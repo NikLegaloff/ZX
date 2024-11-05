@@ -50,6 +50,7 @@ public class ZXSpectrum
         } while (true);
     }
 }
+
 public class Z80
 {
     public readonly Registers Reg =new ();
@@ -74,21 +75,9 @@ public class Z80
 
     public void Init()
     {
-        Init(_commands, new Nop());
-        Init(_commands, new Ex_Af_Afp());
-        Init(_commands, new DJNZ());
-        Init(_commands, new JR_S());
-        Init(_commands, new JR_CC_S());
-        Init(_commands, new LD_RR_NN());
-        Init(_commands, new ADD_HL_RR());
-        Init(_commands, new Halt());
+        new Z80CommandsInit(_commands).Init();
     }
 
-    private void Init(Dictionary<byte, Cmd> cmds, Cmd cmd)
-    {
-        byte i = 0;
-        foreach (var b in cmd.Range) cmds.Add(b, cmd.Init(i++));
-    }
 
     public void Tick()
     {

@@ -19,9 +19,9 @@ public class ADD_HL_RR : Cmd
             case Reg16Code.HL: val = cpu.Reg.HL; break;
             case Reg16Code.SP: val = cpu.Reg.SP; break;
         }
-        cpu.Reg.A.SetCarry(cpu.Reg.HL,val);
-        cpu.Reg.A.Set53(val);
-        cpu.Reg.A.SetHalfCary(cpu.Reg.L,(byte)val%256);
+        cpu.Reg.F.SetCarry(cpu.Reg.HL,val);
+        cpu.Reg.F.Set53(val);
+        cpu.Reg.F.SetHalfCary(cpu.Reg.L,(byte)val%256);
         cpu.Reg.HL += val;
     }
 
