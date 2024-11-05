@@ -1,4 +1,5 @@
-﻿using ZX.Console.Code.Commands;
+﻿using System.Numerics;
+using ZX.Console.Code.Commands;
 
 namespace ZX.Console.Code;
 
@@ -14,6 +15,11 @@ public abstract class Cmd
     protected byte GetBits56(byte b) => (byte)((b >> 4) % 4);
 
     public abstract Cmd Init(byte shift);
+
+    protected bool GetParity(byte value)
+    {
+        return BitOperations.PopCount((uint)value) % 2 == 0;
+    }
 
     protected ushort Get(Z80 cpu, Reg16Code code)
     {

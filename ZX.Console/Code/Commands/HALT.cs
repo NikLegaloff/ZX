@@ -2,7 +2,7 @@
 
 public class Halt : Cmd
 {
-    public override byte[] Range => [0b01_110_110];
+    public override byte[] Range => [0b01110110];
     public override void Execute(Z80 cpu)
     {
         throw new HaltException();

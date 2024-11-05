@@ -115,9 +115,13 @@ public class Z80
             System.Console.CursorTop=0;
             System.Console.WriteLine(cmd.ToString() + "               ");
             System.Console.WriteLine(Reg.ToString() + "          ");
+            if (_freq==0) System.Console.ReadKey();
         }
-        
-        double sleep= cmd.Ticks*1_000_000.0 /_freq;
-        Thread.Sleep(TimeSpan.FromMicroseconds(sleep));
+
+        if (_freq>0)
+        {
+            double sleep= cmd.Ticks*1_000_000.0 /_freq;
+            Thread.Sleep(TimeSpan.FromMicroseconds(sleep));
+        }
     }
 }

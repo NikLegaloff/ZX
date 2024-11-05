@@ -137,6 +137,6 @@ public class RegistersSet
 
     public override string ToString()
     {
-        return $"{nameof(A)}: {A}, {nameof(F)}: {F.Value.ToBits()}, {nameof(B)}: {B}, {nameof(C)}: {C}, {nameof(D)}: {D}, {nameof(E)}: {E}, {nameof(H)}: {H}, {nameof(L)}: {L}";
+        return $"{nameof(A)}: {A} {A.ToBits()}, {nameof(F)}: {F.Value.ToBits()}, {nameof(B)}: {B}, {nameof(C)}: {C}, {nameof(D)}: {D}, {nameof(E)}: {E}, {nameof(H)}: {H}, {nameof(L)}: {L}";
     }
 }

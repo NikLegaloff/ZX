@@ -1,6 +1,5 @@
 ﻿namespace ZX.Console.Code.Commands;
 
-
 public class Nop : Cmd
 {
     public override byte[] Range => [0];

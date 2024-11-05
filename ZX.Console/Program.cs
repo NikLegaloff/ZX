@@ -13,22 +13,11 @@ byte[] code = new byte[]
 
 
 var c = new Z80Compiler();
-c.Add(new Nop());
-c.Add(new LD_A_NNm(),null,null,5);
-c.Add(new DEC_R(), (byte)Reg8Code.A);
-c.Add(new DEC_R(), (byte)Reg8Code.A);
-c.Add(new DEC_R(), (byte)Reg8Code.A);
-c.Add(new DEC_R(), (byte)Reg8Code.A);
-c.Add(new DEC_R(), (byte)Reg8Code.A);
-c.Add(new LD_RR_NN(), (byte)Reg16Code.BC,null,0b00001111_00000000);
-c.Add(new Nop());
-c.Add(new DEC_R(), (byte)Reg8Code.A);
-c.Add(new DJNZ(), null,0b1111_1100);
+c.Add(new LD_R_N(),(byte)Reg8Code.A,0b00101100);
+for(int i = 0; i < 20;i++) c.Add(new RLRCA(), (byte)RotationType.RLA);
 c.Add(new Halt());
 
-
-
 Memory memory = new Memory(c.Compile());
-ZXSpectrum pc = new ZXSpectrum(memory, 25,true);
+ZXSpectrum pc = new ZXSpectrum(memory, 0,true);
 pc.Init();
 pc.Run();

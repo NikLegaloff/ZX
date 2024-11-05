@@ -23,6 +23,9 @@ public class Z80CommandsInit(Dictionary<byte, Cmd> commands)
             new LD_NNm_A(),new LD_A_NNm(),
             new INC_RR(),new DEC_RR(),
             new INC_R(),new DEC_R(),
+            new LD_R_N(),new RLRCA()
+            ,new DAA(),new CPL(),new SCF(),new CCF(),
+            new LD_D_R(),
 
         };
         foreach(var cmd in all) Init(cmd);
