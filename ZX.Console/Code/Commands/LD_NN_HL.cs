@@ -29,7 +29,7 @@ public class LD_HL_NN : Cmd
 
     public override Cmd Init(byte shift)
     {
-        return new LD_NN_HL(){Ticks = 16};
+        return new LD_HL_NN(){Ticks = 16};
     }
     public override string ToString() => $"LD HL, (NN)";
 }

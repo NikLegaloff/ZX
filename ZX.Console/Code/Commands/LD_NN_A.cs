@@ -28,7 +28,7 @@ public class LD_A_NN : Cmd
 
     public override Cmd Init(byte shift)
     {
-        return new LD_NN_A() { Ticks = 13 };
+        return new LD_A_NN() { Ticks = 13 };
     }
     public override string ToString() => $"LD A, (NN)";
 }
