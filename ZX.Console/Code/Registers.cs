@@ -24,6 +24,9 @@ public class Registers : RegistersSet
 public class Flags
 {
     public byte Value=0;
+    private bool _iff1=false;
+    private bool _iff2 = false;
+
     public bool S
     {
         get => Value >> 7 > 0;
@@ -71,6 +74,14 @@ public class Flags
     }
     public void SetCarry(ushort a, ushort b) => C = a + b > 65535;
     public void SetHalfCary(byte a, int b) => H = a % 16 + b % 16 >= 16;
+
+    public void SetZS53(byte val, bool? negative=null)
+    {
+        Z = val == 0;
+        S = (val & 0b10000000) > 0;
+        Set53(val);
+        if (negative != null) N = negative.Value;
+    }
 }
 
 public class RegistersSet
@@ -126,6 +137,6 @@ public class RegistersSet
 
     public override string ToString()
     {
-        return $"{nameof(A)}: {A.Value}, {nameof(F)}: {F.ToBits()}, {nameof(B)}: {B}, {nameof(C)}: {C}, {nameof(D)}: {D}, {nameof(E)}: {E}, {nameof(H)}: {H}, {nameof(L)}: {L}";
+        return $"{nameof(A)}: {A}, {nameof(F)}: {F.Value.ToBits()}, {nameof(B)}: {B}, {nameof(C)}: {C}, {nameof(D)}: {D}, {nameof(E)}: {E}, {nameof(H)}: {H}, {nameof(L)}: {L}";
     }
 }

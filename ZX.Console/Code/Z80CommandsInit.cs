@@ -19,7 +19,10 @@ public class Z80CommandsInit(Dictionary<byte, Cmd> commands)
             new Halt(),
             new LD_BCm_A(), new LD_A_BCm(),
             new LD_DEm_A(), new LD_A_DEm(),
-            new LD_NN_HL(),new LD_HL_NN()
+            new LD_NN_HL(),new LD_HL_NN(),
+            new INC_RR(),new DEC_RR(),
+            new INC_R(),new DEC_R(),
+
         };
         foreach(var cmd in all) Init(cmd);
     }
