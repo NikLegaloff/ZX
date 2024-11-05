@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using ZX.Console.Code;
+using ZX.Console.Code.Commands;
 
 byte[] code = new byte[]
 {
@@ -8,11 +9,26 @@ byte[] code = new byte[]
     0b00000000, // NOP
     0b00_010_000 , 0b1111_1101, // DJNZ -3
     0b01_110_110 // HALT
-
 };
 
 
-var memory = new Memory(code);
-ZXSpectrum pc = new ZXSpectrum(memory, 10,true);
+var c = new Z80Compiler();
+c.Add(new Nop());
+c.Add(new LD_A_NNm(),null,null,5);
+c.Add(new DEC_R(), (byte)Reg8Code.A);
+c.Add(new DEC_R(), (byte)Reg8Code.A);
+c.Add(new DEC_R(), (byte)Reg8Code.A);
+c.Add(new DEC_R(), (byte)Reg8Code.A);
+c.Add(new DEC_R(), (byte)Reg8Code.A);
+c.Add(new LD_RR_NN(), (byte)Reg16Code.BC,null,0b00001111_00000000);
+c.Add(new Nop());
+c.Add(new DEC_R(), (byte)Reg8Code.A);
+c.Add(new DJNZ(), null,0b1111_1100);
+c.Add(new Halt());
+
+
+
+Memory memory = new Memory(c.Compile());
+ZXSpectrum pc = new ZXSpectrum(memory, 25,true);
 pc.Init();
 pc.Run();

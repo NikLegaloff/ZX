@@ -3,7 +3,11 @@
 public class INC_RR : Cmd
 {
     private Reg16Code _code;
-    public override byte[] Range => [0b00_000_011,0b00_010_011,0b00_100_011,0b00_110_011];
+    public override byte[] Range => [
+        0b00_000_011,
+        0b00_010_011,
+        0b00_100_011,
+        0b00_110_011];
     public override void Execute(Z80 cpu)
     {
         var val = Get(cpu, _code);
@@ -18,7 +22,11 @@ public class INC_RR : Cmd
 public class DEC_RR : Cmd
 {
     private Reg16Code _code;
-    public override byte[] Range => [0b00_000_011,0b00_010_011,0b00_100_011,0b00_110_011];
+    public override byte[] Range => [
+        0b00_001_011,
+        0b00_011_011,
+        0b00_101_011,
+        0b00_111_011];
     public override void Execute(Z80 cpu)
     {
         var val = Get(cpu, _code);

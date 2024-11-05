@@ -50,8 +50,8 @@ public abstract class Cmd
             case Reg16Code.DE: cpu.Reg.DE = val; break;
             case Reg16Code.HL: cpu.Reg.HL = val; break;
             case Reg16Code.SP: cpu.Reg.SP = val; break;
+            default: throw new Exception("UnknownCode" + code);
         }
-        throw new Exception("UnknownCode" + code);
     }
     protected void Set(Z80 cpu, Reg8Code code, byte val)
     {
@@ -65,8 +65,8 @@ public abstract class Cmd
             case Reg8Code.L:  cpu.Reg.L=val; break;
             case Reg8Code.HLm:cpu.Memory[cpu.Reg.HL]=val; break;
             case Reg8Code.A:  cpu.Reg.A=val; break;
+            default: throw new Exception("UnknownCode" + code);
         }
-        throw new Exception("UnknownCode" + code);
     }
 
 }

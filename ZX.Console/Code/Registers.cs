@@ -87,7 +87,7 @@ public class Flags
 public class RegistersSet
 {
     public byte A;
-    public Flags F;
+    public Flags F=new ();
     public ushort AF
     {
         get => (ushort)(A * 256 + F.Value);

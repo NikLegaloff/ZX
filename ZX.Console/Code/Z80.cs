@@ -108,14 +108,14 @@ public class Z80
             cmd = _commandsCB[cmdCode];
         }
         else cmd = _commands[cmdCode];
+        cmd.Execute(this);
 
         if (_isDebug)
         {
-            System.Console.Clear();
-            System.Console.WriteLine(cmd.ToString());
-            System.Console.WriteLine(Reg.ToString());
+            System.Console.CursorTop=0;
+            System.Console.WriteLine(cmd.ToString() + "               ");
+            System.Console.WriteLine(Reg.ToString() + "          ");
         }
-        cmd.Execute(this);
         
         double sleep= cmd.Ticks*1_000_000.0 /_freq;
         Thread.Sleep(TimeSpan.FromMicroseconds(sleep));

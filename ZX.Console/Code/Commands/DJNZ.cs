@@ -18,5 +18,5 @@ public class DJNZ : Cmd
         }
     }
     public override Cmd Init(byte shift) => new DJNZ();
-    public override string ToString() => "DJNZ\ts";
+    public override string ToString() => "DJNZ s";
 }
