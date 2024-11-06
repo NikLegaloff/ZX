@@ -21,7 +21,7 @@ public class ZXSpectrum
 
     public Memory Memory => _memory;
 
-    public void Init()
+    public void InitAndStart()
     {
         _display = new ZXSpectrumDisplay(this);
         _display.Init();
