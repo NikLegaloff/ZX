@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
 using ZX.Console.Code;
 using ZX.Console.Code.Commands;
 
@@ -14,10 +17,11 @@ byte[] code = new byte[]
 
 var c = new Z80Compiler();
 c.Add(new LD_R_N(),(byte)Reg8Code.A,0b00101100);
-for(int i = 0; i < 20;i++) c.Add(new RLRCA(), (byte)RotationType.RLA);
+for(int i = 0; i < 800;i++) c.Add(new RLRCA(), (byte)RotationType.RLA);
 c.Add(new Halt());
 
 Memory memory = new Memory(c.Compile());
-ZXSpectrum pc = new ZXSpectrum(memory, 0,true);
+memory.LoadFile("D:\\Work\\ZX\\FinalMatrixThe.scr",16384);
+ZXSpectrum pc = new ZXSpectrum(memory, 10,true);
 pc.Init();
-pc.Run();
+

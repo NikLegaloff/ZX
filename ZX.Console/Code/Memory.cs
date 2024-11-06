@@ -8,6 +8,12 @@ public class Memory
         foreach (var b in rom) _data[i++] = b;
     }
 
+    public void LoadFile(string name, ushort addr)
+    {
+        var i = addr;
+        foreach (var b in File.ReadAllBytes(name)) _data[i++]=b; 
+    }
+
     public byte[] _data = new byte[65536];
     public byte this[ushort a]
     {
@@ -17,7 +23,7 @@ public class Memory
         }
         set
         {
-            if (a <= 16384) return;
+            if (a < 16384) return;
             _data[a] = value;
         }
     }
