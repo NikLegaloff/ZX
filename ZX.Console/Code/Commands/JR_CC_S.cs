@@ -27,3 +27,4 @@ public class JR_CC_S : Cmd
 }
 
 public enum ShortConditionCode { NZ, Z, NC, C }
+

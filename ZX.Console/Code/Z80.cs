@@ -35,31 +35,40 @@ public class Z80
     {
         var cmdCode = Memory[Reg.PC++];
         Cmd cmd;
-        if (cmdCode == 0xDD)
+        try
         {
-            cmdCode = Memory[Reg.PC++];
-            if (cmdCode == 0xCB)
+            if (cmdCode == 0xDD)
             {
                 cmdCode = Memory[Reg.PC++];
-                cmd = _commandsDDCB[cmdCode];
-            } else cmd = _commandsDD[cmdCode];
+                if (cmdCode == 0xCB)
+                {
+                    cmdCode = Memory[Reg.PC++];
+                    cmd = _commandsDDCB[cmdCode];
+                } else cmd = _commandsDD[cmdCode];
+            }
+            else if (cmdCode == 0xFD)
+            {
+                cmdCode = Memory[Reg.PC++];
+                cmd = _commandsFD[cmdCode];
+            }
+            else if (cmdCode == 0xED)
+            {
+                cmdCode = Memory[Reg.PC++];
+                cmd = _commandsED[cmdCode];
+            }
+            else if (cmdCode == 0xCB)
+            {
+                cmdCode = Memory[Reg.PC++];
+                cmd = _commandsCB[cmdCode];
+            }
+            else cmd = _commands[cmdCode];
         }
-        else if (cmdCode == 0xFD)
+        catch (KeyNotFoundException)
         {
-            cmdCode = Memory[Reg.PC++];
-            cmd = _commandsFD[cmdCode];
+            System.Console.WriteLine("Unknown command " + cmdCode);
+            return;
         }
-        else if (cmdCode == 0xED)
-        {
-            cmdCode = Memory[Reg.PC++];
-            cmd = _commandsED[cmdCode];
-        }
-        else if (cmdCode == 0xCB)
-        {
-            cmdCode = Memory[Reg.PC++];
-            cmd = _commandsCB[cmdCode];
-        }
-        else cmd = _commands[cmdCode];
+
         cmd.Execute(this);
 
         if (_isDebug)

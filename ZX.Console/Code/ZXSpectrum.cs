@@ -21,13 +21,19 @@ public class ZXSpectrum
 
     public Memory Memory => _memory;
 
-    public void InitAndStart()
+    public void InitAndStart(bool showDisplay=true)
     {
-        _display = new ZXSpectrumDisplay(this);
-        _display.Init();
+
         _z80.Init();
-        new Thread(Run).Start();
-        _display.Run();
+        
+        if (showDisplay)
+        {
+            _display = new ZXSpectrumDisplay(this);
+            _display.Init();
+            new Thread(Run).Start();
+            _display.Run();
+        }
+        else Run();
     }
 
     public void Int(byte num)

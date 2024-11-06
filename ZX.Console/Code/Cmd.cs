@@ -21,6 +21,49 @@ public abstract class Cmd
         return BitOperations.PopCount((uint)value) % 2 == 0;
     }
 
+    protected bool get_byte_sum_overflow(byte op1, byte op2, byte sum)
+    {
+        if (((op1 ^ op2) & 0x80) > 0)
+        {
+            return false;
+        }
+        else
+        {
+            if (((op1 ^ sum) & 0x80) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    protected bool get_byte_diff_overflow(byte op1, byte op2, byte diff)
+    {
+        if (((op1 ^ op2) & 0x80) > 0)
+        {
+            if (((op1 ^ diff) & 0x80) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected ushort POP16(Z80 cpu)
+    {
+        return (ushort)(256 * cpu.Memory[cpu.Reg.SP--] * 256 + cpu.Memory[cpu.Reg.SP--]);
+    }
+
     protected ushort Get(Z80 cpu, Reg16Code code)
     {
         switch (code)
