@@ -102,6 +102,17 @@ public abstract class Cmd
             default: throw new Exception("UnknownCode" + code);
         }
     }
+    protected void Set(Z80 cpu, StackRegisters code, ushort val)
+    {
+        switch (code)
+        {
+            case StackRegisters.BC: cpu.Reg.BC = val; break;
+            case StackRegisters.DE: cpu.Reg.DE = val; break;
+            case StackRegisters.HL: cpu.Reg.HL = val; break;
+            case StackRegisters.AF: cpu.Reg.AF = val; break;
+            default: throw new Exception("UnknownCode" + code);
+        }
+    }
     protected void Set(Z80 cpu, Reg8Code code, byte val)
     {
         switch (code)

@@ -13,10 +13,10 @@ public class POP_RS : Cmd
     ];
     public override void Execute(Z80 cpu)
     {
-        cpu.Reg.PC = (ushort)(cpu.Memory[cpu.Reg.SP--]*256+ cpu.Memory[cpu.Reg.SP--]);
+        Set(cpu,_code, POP16(cpu)); 
     }
 
-    public override Cmd Init(byte shift) => new POP_RS { _code = (StackRegisters)shift };
+    public override Cmd Init(byte shift) => new POP_RS { _code = (StackRegisters)shift,Ticks = 10};
     public override string ToString() => "POP " + _code;
 
 }
