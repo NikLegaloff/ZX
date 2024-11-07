@@ -28,7 +28,7 @@ public class Z80CommandsInit(Dictionary<byte, Cmd> commands)
             new LD_D_R(),
             new ADD_A_R(), new ADC_A_R(),new SUB_A_R(), new SBC_A_R(),
             new AND_R(), new OR_R(),new XOR_R(), new CP_R(),
-            new RET_C()
+            new RET_C(), new POP_RS()
 
 
         };

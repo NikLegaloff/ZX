@@ -5,8 +5,14 @@ public class INC_R : Cmd
 {
     private Reg8Code _code;
     public override byte[] Range => [
-        0b00_000_100,0b00_001_100,0b00_010_100,0b00_011_100,
-        0b00_100_100,0b00_101_100,0b00_110_100,0b00_111_100,
+        0b00_000_100,
+        0b00_001_100,
+        0b00_010_100,
+        0b00_011_100,
+        0b00_100_100,
+        0b00_101_100,
+        0b00_110_100,
+        0b00_111_100,
     ];
     public override void Execute(Z80 cpu)
     {

@@ -23,12 +23,12 @@ for(int i = 0; i < 800;i++) c.Add(new RLRCA(), (byte)RotationType.RLA);
 c.Add(new SCF());
 c.Add(new LD_R_N(), (byte)Reg8Code.A, 5);
 c.Add(new LD_R_N(), (byte)Reg8Code.B, 10);
-c.Add(new ADC_A_R(), (byte)Reg8Code.B);
+c.Add(new ADD_A_R(), (byte)Reg8Code.B);
 c.Add(new Halt());
 
 Memory memory = new Memory(c.Compile());
-//memory.LoadFile("D:\\Work\\ZX\\FinalMatrixThe.scr",16384);
-memory.LoadFile("D:\\Work\\ZX\\Doc\\48.rom", 0);
+memory.LoadFile("D:\\Work\\ZX\\Doc\\FinalMatrixThe.scr",16384);
+//memory.LoadFile("D:\\Work\\ZX\\Doc\\48.rom", 0);
 ZXSpectrum pc = new ZXSpectrum(memory, 10,true);
-pc.InitAndStart(false);
+pc.InitAndStart();
 
