@@ -7,6 +7,7 @@ public class Z80
 {
     public readonly Registers Reg =new ();
     public readonly Memory Memory;
+    public readonly Z80Bus Bus;
 
     private readonly Dictionary<byte,Cmd> _commands = new();
     private readonly Dictionary<byte,Cmd> _commandsDD = new();
@@ -18,9 +19,10 @@ public class Z80
     private readonly int _freq;
     private readonly bool _isDebug;
 
-    public Z80(Memory memory, int freq, bool isDebug=false)
+    public Z80(Memory memory, Z80Bus bus, int freq, bool isDebug=false)
     {
         Memory=memory;
+        Bus = bus;
         _freq=freq;
         _isDebug = isDebug;
     }

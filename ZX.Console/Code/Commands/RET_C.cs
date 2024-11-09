@@ -18,22 +18,14 @@ public class RET_C : Cmd
     public override void Execute(Z80 cpu)
     {
         
-        bool jump =    _code == FullConditionCode.Z  &&  cpu.Reg.F.Z
-                    || _code == FullConditionCode.NZ && !cpu.Reg.F.Z
-                    || _code == FullConditionCode.C  &&  cpu.Reg.F.C
-                    || _code == FullConditionCode.NC && !cpu.Reg.F.C
-                    || _code == FullConditionCode.PO && !cpu.Reg.F.PV
-                    || _code == FullConditionCode.PE &&  cpu.Reg.F.PV 
-                    || _code == FullConditionCode.P && !cpu.Reg.F.S 
-                    || _code == FullConditionCode.M &&  cpu.Reg.F.S;
+        bool jump = IsJump(cpu,_code);
         if (jump)
         {
-            cpu.Reg.PC = POP16(cpu);
+            cpu.Reg.PC = Pop16(cpu);
             Ticks = 13;
         }
         else Ticks = 7;
     }
-
 
     public override string ToString() => $"RET {_code}";
     public override Cmd Init(byte shift) => new RET_C { _code = (FullConditionCode)shift };

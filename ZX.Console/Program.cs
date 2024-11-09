@@ -27,8 +27,8 @@ c.Add(new ADD_A_R(), (byte)Reg8Code.B);
 c.Add(new Halt());
 
 Memory memory = new Memory(c.Compile());
-memory.LoadFile("D:\\Work\\ZX\\Doc\\FinalMatrixThe.scr",16384);
+//memory.LoadFile("D:\\Work\\ZX\\Doc\\FinalMatrixThe.scr",16384);
 //memory.LoadFile("D:\\Work\\ZX\\Doc\\48.rom", 0);
-ZXSpectrum pc = new ZXSpectrum(memory, 10,true);
-pc.InitAndStart();
+ZXSpectrum pc = new ZXSpectrum(memory, new Z80Bus(), 10,true);
+pc.InitAndStart(false);
 

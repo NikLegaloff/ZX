@@ -9,15 +9,18 @@ public class ZXSpectrum
     private Memory _memory;
     private readonly bool _isDebug;
     private ZXSpectrumDisplay _display;
+    private Z80Bus _bus;
 
-    public ZXSpectrum(Memory memory, int freq, bool isDebug=false)
+    public ZXSpectrum(Memory memory, Z80Bus bus, int freq, bool isDebug=false)
     {
-        _z80 = new Z80(memory, freq, isDebug);
+        _bus=bus;
+        _z80 = new Z80(memory,bus, freq, isDebug);
         _memory = memory;
         _isDebug = isDebug;
     }
 
     public Z80 Z80 => _z80;
+    public Z80Bus Bus=> _bus;
 
     public Memory Memory => _memory;
 

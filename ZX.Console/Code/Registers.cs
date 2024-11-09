@@ -15,6 +15,9 @@ public class Registers : RegistersSet
     public ushort SP = 65535;
     public ushort PC = 0;
 
+
+
+
     public override string ToString()
     {
         return $"{base.ToString()}, {nameof(I)}: {I},{nameof(IX)}: {IX}, {nameof(IY)}: {IY}, {nameof(SP)}: {SP}, {nameof(PC)}: {PC}";
@@ -24,8 +27,10 @@ public class Registers : RegistersSet
 public class Flags
 {
     public byte Value=0;
-    private bool _iff1=false;
-    private bool _iff2 = false;
+    public bool Iff1=false;
+    public bool Iff2 = false;
+
+
 
     public bool S
     {

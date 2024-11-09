@@ -2,7 +2,7 @@
 
 namespace ZX.Console.Code.Commands;
 
-public class ADD_A_R : ADD_SUB_BASE
+public class ADD_A_R : ADD_SUB_BASE_Reg8Code
 {
     public override byte[] Range => [
         0b10000_000,
@@ -20,7 +20,8 @@ public class ADD_A_R : ADD_SUB_BASE
     protected override bool IsCarry => false;
     protected override bool IsAdd => true;
 }
-public class ADC_A_R : ADD_SUB_BASE
+
+public class ADC_A_R : ADD_SUB_BASE_Reg8Code
 {
     public override byte[] Range => [
         0b10001_000,
@@ -39,7 +40,7 @@ public class ADC_A_R : ADD_SUB_BASE
     protected override bool IsAdd => true;
 }
 
-public class SUB_A_R : ADD_SUB_BASE
+public class SUB_A_R : ADD_SUB_BASE_Reg8Code
 {
     public override byte[] Range => [
         0b10010_000,
@@ -57,7 +58,7 @@ public class SUB_A_R : ADD_SUB_BASE
     protected override bool IsCarry => false;
     protected override bool IsAdd => false;
 }
-public class SBC_A_R : ADD_SUB_BASE
+public class SBC_A_R : ADD_SUB_BASE_Reg8Code
 {
     public override byte[] Range => [
         0b10011_000,
@@ -76,16 +77,27 @@ public class SBC_A_R : ADD_SUB_BASE
     protected override bool IsAdd => false;
 }
 
-public abstract class ADD_SUB_BASE : Cmd
+public abstract class ADD_SUB_BASE_NN : ADD_SUB_BASE
+{
+    protected override byte GetOperand(Z80 cpu) => ReadByte(cpu);
+}
+public abstract class ADD_SUB_BASE_Reg8Code : ADD_SUB_BASE
 {
     protected Reg8Code _code;
+    protected override byte GetOperand(Z80 cpu)
+    {
+        return Get(cpu, _code);
+    }
+}
+public abstract class ADD_SUB_BASE : Cmd
+{
     protected abstract bool IsCarry { get; }
     protected abstract bool IsAdd { get; }
 
     public override void Execute(Z80 cpu)
     {
         var a = cpu.Reg.A;
-        var operand = Get(cpu, _code);
+        var operand = GetOperand(cpu);
         var carry_value = IsCarry && cpu.Reg.F.C ? 1 : 0;
         var old_a = a;
 
@@ -114,5 +126,9 @@ public abstract class ADD_SUB_BASE : Cmd
             cpu.Reg.F.C = borrow;
         }
     }
+
+    protected abstract byte GetOperand(Z80 cpu);
+
+
 
 }

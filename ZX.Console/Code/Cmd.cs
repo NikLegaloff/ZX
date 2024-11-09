@@ -59,11 +59,39 @@ public abstract class Cmd
         }
     }
 
-    protected ushort POP16(Z80 cpu)
+    protected ushort Pop16(Z80 cpu)
     {
         return (ushort)(256 * cpu.Memory[cpu.Reg.SP--] * 256 + cpu.Memory[cpu.Reg.SP--]);
     }
+    protected void Push(Z80 cpu, byte b)
+    {
+        cpu.Memory[cpu.Reg.SP++] = b;
+    }
 
+    protected void Push16(Z80 cpu, ushort s)
+    {
+        cpu.Memory[cpu.Reg.SP++] = (byte)(s%256);
+        cpu.Memory[cpu.Reg.SP++] = (byte)(s/256);
+    }
+
+    protected bool IsJump(Z80 cpu, FullConditionCode code)
+    {
+        return code == FullConditionCode.Z && cpu.Reg.F.Z
+               || code == FullConditionCode.NZ && !cpu.Reg.F.Z
+               || code == FullConditionCode.C && cpu.Reg.F.C
+               || code == FullConditionCode.NC && !cpu.Reg.F.C
+               || code == FullConditionCode.PO && !cpu.Reg.F.PV
+               || code == FullConditionCode.PE && cpu.Reg.F.PV
+               || code == FullConditionCode.P && !cpu.Reg.F.S
+               || code == FullConditionCode.M && cpu.Reg.F.S;
+    }
+    protected bool IsJump(Z80 cpu, ShortConditionCode code)
+    {
+        return code == ShortConditionCode.Z && cpu.Reg.F.Z ||
+               code == ShortConditionCode.NZ && !cpu.Reg.F.Z ||
+               code == ShortConditionCode.C && cpu.Reg.F.C ||
+               code == ShortConditionCode.NC && !cpu.Reg.F.C;
+    }
     protected ushort Get(Z80 cpu, Reg16Code code)
     {
         switch (code)
@@ -72,6 +100,17 @@ public abstract class Cmd
             case Reg16Code.DE: return cpu.Reg.DE;
             case Reg16Code.HL: return cpu.Reg.HL;
             case Reg16Code.SP: return cpu.Reg.SP;
+        }
+        throw new Exception("UnknownCode" + code);
+    }
+    protected ushort Get(Z80 cpu, StackRegisters code)
+    {
+        switch (code)
+        {
+            case StackRegisters.BC: return cpu.Reg.BC;
+            case StackRegisters.DE: return cpu.Reg.DE;
+            case StackRegisters.HL: return cpu.Reg.HL;
+            case StackRegisters.AF: return cpu.Reg.AF;
         }
         throw new Exception("UnknownCode" + code);
     }
